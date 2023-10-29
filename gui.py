@@ -1,9 +1,9 @@
 from PyQt5 import QtWidgets, QtCore
-import os
 import sys
-import cv2
-import matplotlib.pyplot as plt
-import numpy as np
+from CameraCalibration import FindCorners, FindIntrinsic, FindExtrinsic, FindDistortion, ShowUndistorted
+import globals
+from LoadFolder import LoadFolder
+from AugumentedReality import ShowWordsOnBoard
 
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
@@ -19,69 +19,18 @@ style_btn = '''
         background:#f90;
     }
 '''
+def getcomboboxint():
+    globals.getint = getint.currentText()
+
+def LineEditGetStr():
+    globals.getstr = getstr.text()
+
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 MainWindow.setObjectName("MainWindow")
 MainWindow.setWindowTitle("cvdlhw1.ui")
 MainWindow.resize(900, 800)
-images = []
-def LoadFolderButtonClicked():
-    folder = r"C:\Users\hotin\Desktop\Dataset_CvDl_Hw1\Q1_Image"
-
-    for filename in os.listdir(r"C:\Users\hotin\Desktop\Dataset_CvDl_Hw1\Q1_Image"):
-        img = cv2.imread(os.path.join(folder, filename))
-        if img is not None:
-            images.append(img)
-    print("read success")
-
-def FindCorners():
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
-    for img in images:
-        grayimg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        ret, corners = cv2.findChessboardCorners(grayimg, (11, 8), None)
-        if ret:
-            cv2.cornerSubPix(grayimg, corners, (5, 5), (-1, -1), criteria)
-            cv2.drawChessboardCorners(img, (11, 8), corners, ret)
-            img = cv2.resize(img, (800, 800))
-            cv2.imshow('img', img)
-            cv2.waitKey(0)
-
-def FindIntrinsic():
-    objectPoints = []
-    imagePoints = []
-    obj = np.zeros((11*8, 3), np.float32)
-    obj[:, :2] = np.mgrid[0:11, 0:8].T.reshape(-1, 2)
-    for img in images:
-        grayimg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        ret, corners = cv2.findChessboardCorners(grayimg, (11, 8), None)
-        if ret:
-            objectPoints.append(obj)
-            imagePoints.append(corners)
-            cv2.drawChessboardCorners(img, (11, 8), corners, ret)
-            ret, mat, coff, rot, trans = cv2.calibrateCamera(objectPoints, imagePoints, grayimg.shape[::-1], None, None)
-            print("Intrinsic")
-            print(mat, "\n")
-
-def FindExtrinsic():
-    i = 0
-    num = int(getint.currentText())
-    objectPoints = []
-    imagePoints = []
-    obj = np.zeros((11*8, 3), np.float32)
-    obj[:, :2] = np.mgrid[0:11, 0:8].T.reshape(-1, 2)
-    for img in images:
-        grayimg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        ret, corners = cv2.findChessboardCorners(grayimg, (11, 8), None)
-        if ret:
-            if i == num:
-                objectPoints.append(obj)
-                imagePoints.append(corners)
-                cv2.drawChessboardCorners(img, (11, 8), corners, ret)
-                ret, mat, coff, rot, trans = cv2.calibrateCamera(objectPoints, imagePoints, grayimg.shape[::-1], None, None)
-                R = cv2.Rodrigues(rot[0])
-                ext = np.hstack((R[0], trans[0]))
-                print(ext)
-        i += 1
+globals.initialize()
 
 # Load Image
 vbox = QtWidgets.QWidget(MainWindow)
@@ -96,7 +45,7 @@ pushButton1_1 = QtWidgets.QPushButton(vbox)
 pushButton1_1.setObjectName("Load folder")
 pushButton1_1.setText("Load folder")
 pushButton1_1.setStyleSheet(style_btn)
-pushButton1_1.clicked.connect(LoadFolderButtonClicked)
+pushButton1_1.clicked.connect(LoadFolder)
 v_layout.addWidget(pushButton1_1)
 
 pushButton1_2 = QtWidgets.QPushButton(vbox)
@@ -144,6 +93,7 @@ pushButton2_3 = QtWidgets.QPushButton(vbox2)
 pushButton2_3.setObjectName("1.3 Find extrinsic")
 pushButton2_3.setText("1.3 Find extrinsic")
 pushButton2_3.setStyleSheet(style_btn)
+pushButton2_3.clicked.connect(getcomboboxint)
 pushButton2_3.clicked.connect(FindExtrinsic)
 v_layout.addWidget(pushButton2_3)
 #####
@@ -152,12 +102,14 @@ pushButton2_4 = QtWidgets.QPushButton(vbox2)
 pushButton2_4.setObjectName("1.4 Find distortion")
 pushButton2_4.setText("1.4 Find distortion")
 pushButton2_4.setStyleSheet(style_btn)
+pushButton2_4.clicked.connect(FindDistortion)
 v_layout.addWidget(pushButton2_4)
 
 pushButton2_5 = QtWidgets.QPushButton(vbox2)
 pushButton2_5.setObjectName("1.5 show result")
 pushButton2_5.setText("1.5 show result")
 pushButton2_5.setStyleSheet(style_btn)
+pushButton2_5.clicked.connect(ShowUndistorted)
 v_layout.addWidget(pushButton2_5)
 
 # SIFT
@@ -211,6 +163,8 @@ pushButton4_1 = QtWidgets.QPushButton(vbox4)
 pushButton4_1.setObjectName("2.1 show words on board")
 pushButton4_1.setText("2.1 show words on board")
 pushButton4_1.setStyleSheet(style_btn)
+pushButton4_1.clicked.connect(LineEditGetStr)
+pushButton4_1.clicked.connect(ShowWordsOnBoard)
 v_layout.addWidget(pushButton4_1)
 
 pushButton4_2 = QtWidgets.QPushButton(vbox4)
