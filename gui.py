@@ -3,7 +3,7 @@ import sys
 from CameraCalibration import FindCorners, FindIntrinsic, FindExtrinsic, FindDistortion, ShowUndistorted
 import globals
 from LoadFolder import LoadFolder
-from AugumentedReality import ShowWordsOnBoard
+from AugumentedReality import ShowWordsOnBoard, ShowWordsVertically
 
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
@@ -170,6 +170,8 @@ v_layout.addWidget(pushButton4_1)
 pushButton4_2 = QtWidgets.QPushButton(vbox4)
 pushButton4_2.setObjectName("2.2 show words vertical")
 pushButton4_2.setText("2.2 show words vertical")
+pushButton4_2.clicked.connect(LineEditGetStr)
+pushButton4_2.clicked.connect(ShowWordsVertically)
 pushButton4_2.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton4_2)
 
