@@ -16,3 +16,14 @@ def LoadFolder():
             if img is not None:
                 globals.images.append(img)
     print("read success")
+
+def LoadImageL():
+    path = r"C:\Users\hotin\Desktop\Dataset_CvDl_Hw1\Q3_Image\imL.png"
+    img = cv2.imread(path)
+    globals.images.append(img)
+    print("read imL success")
+def LoadImageR():
+    path = r"C:\Users\hotin\Desktop\Dataset_CvDl_Hw1\Q3_Image\imR.png"
+    img = cv2.imread(path)
+    globals.images.append(img)
+    print("read imR success")

@@ -2,8 +2,9 @@ from PyQt5 import QtWidgets, QtCore
 import sys
 from CameraCalibration import FindCorners, FindIntrinsic, FindExtrinsic, FindDistortion, ShowUndistorted
 import globals
-from LoadFolder import LoadFolder
+from LoadFolder import LoadFolder, LoadImageL, LoadImageR
 from AugumentedReality import ShowWordsOnBoard, ShowWordsVertically
+from StereoDisparityMap import StereoDisparityMap
 
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
@@ -52,12 +53,14 @@ pushButton1_2 = QtWidgets.QPushButton(vbox)
 pushButton1_2.setObjectName("Load folder_L")
 pushButton1_2.setText("Load folder_L")
 pushButton1_2.setStyleSheet(style_btn)
+pushButton1_2.clicked.connect(LoadImageL)
 v_layout.addWidget(pushButton1_2)
 
 pushButton1_3 = QtWidgets.QPushButton(vbox)
 pushButton1_3.setObjectName("Load folder_R")
 pushButton1_3.setText("Load folder_R")
 pushButton1_3.setStyleSheet(style_btn)
+pushButton1_3.clicked.connect(LoadImageR)
 v_layout.addWidget(pushButton1_3)
 
 # Calibration
@@ -227,6 +230,7 @@ vbox6.setStyleSheet(style_box)
 pushButton6_5 = QtWidgets.QPushButton(vbox6)
 pushButton6_5.setObjectName("3.1 stereo disparity map")
 pushButton6_5.setText("3.1 stereo disparity map")
+pushButton6_5.clicked.connect(StereoDisparityMap)
 pushButton6_5.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton6_5)
 
