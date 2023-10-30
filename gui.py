@@ -2,9 +2,10 @@ from PyQt5 import QtWidgets, QtCore
 import sys
 from CameraCalibration import FindCorners, FindIntrinsic, FindExtrinsic, FindDistortion, ShowUndistorted
 import globals
-from LoadFolder import LoadFolder, LoadImageL, LoadImageR
+from LoadFolder import LoadFolder, LoadImageL, LoadImageR, LoadImage1, LoadImage2
 from AugumentedReality import ShowWordsOnBoard, ShowWordsVertically
 from StereoDisparityMap import StereoDisparityMap
+from Keypoints import Keypoints, MatchedKeyPoints
 
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
@@ -127,24 +128,28 @@ v_layout = QtWidgets.QVBoxLayout(vbox3)
 pushButton3_1 = QtWidgets.QPushButton(vbox3)
 pushButton3_1.setObjectName("Load Image1")
 pushButton3_1.setText("Load Image1")
+pushButton3_1.clicked.connect(LoadImage1)
 pushButton3_1.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton3_1)
 
 pushButton3_2 = QtWidgets.QPushButton(vbox3)
 pushButton3_2.setObjectName("Load Image2")
 pushButton3_2.setText("Load Image2")
+pushButton3_2.clicked.connect(LoadImage2)
 pushButton3_2.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton3_2)
 
 pushButton3_3 = QtWidgets.QPushButton(vbox3)
 pushButton3_3.setObjectName("4.1 Keypoints")
 pushButton3_3.setText("4.1 Keypoints")
+pushButton3_3.clicked.connect(Keypoints)
 pushButton3_3.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton3_3)
 
 pushButton3_4 = QtWidgets.QPushButton(vbox3)
 pushButton3_4.setObjectName("4.2 Matched Keypoints")
 pushButton3_4.setText("4.2 Matched Keypointss")
+pushButton3_4.clicked.connect(MatchedKeyPoints)
 pushButton3_4.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton3_4)
 

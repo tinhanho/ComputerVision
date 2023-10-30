@@ -27,3 +27,15 @@ def LoadImageR():
     img = cv2.imread(path)
     globals.images.append(img)
     print("read imR success")
+
+def LoadImage1():
+    path = r"C:\Users\hotin\Desktop\Dataset_CvDl_Hw1\Q4_Image\Left.jpg"
+    img = cv2.imread(path)
+    globals.images.append(img)
+    print("read Load Image 1 success")
+
+def LoadImage2():
+    path = r"C:\Users\hotin\Desktop\Dataset_CvDl_Hw1\Q4_Image\Right.jpg"
+    img = cv2.imread(path)
+    globals.images.append(img)
+    print("read Load Image 2 success")
