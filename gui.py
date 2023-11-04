@@ -2,10 +2,11 @@ from PyQt5 import QtWidgets, QtCore
 import sys
 from CameraCalibration import FindCorners, FindIntrinsic, FindExtrinsic, FindDistortion, ShowUndistorted
 import globals
-from LoadFolder import LoadFolder, LoadImageL, LoadImageR, LoadImage1, LoadImage2
-from AugumentedReality import ShowWordsOnBoard, ShowWordsVertically
+from LoadFolder import LoadFolder, LoadImageL, LoadImageR, LoadImage1, LoadImage2, LoadImage5
+from AugmentedReality import ShowWordsOnBoard, ShowWordsVertically
 from StereoDisparityMap import StereoDisparityMap
 from Keypoints import Keypoints, MatchedKeyPoints
+from VGG19 import ShowAugmentedImages
 
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
@@ -195,12 +196,14 @@ v_layout = QtWidgets.QVBoxLayout(vbox5)
 pushButton5_1 = QtWidgets.QPushButton(vbox5)
 pushButton5_1.setObjectName("Load Image")
 pushButton5_1.setText("Load Image")
+pushButton5_1.clicked.connect(LoadImage5)
 pushButton5_1.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton5_1)
 
 pushButton5_2 = QtWidgets.QPushButton(vbox5)
 pushButton5_2.setObjectName("5.1 Show Augmented \n Images")
 pushButton5_2.setText("5.1 Show Augmented \n Images")
+pushButton5_2.clicked.connect(ShowAugmentedImages)
 pushButton5_2.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton5_2)
 

@@ -1,6 +1,5 @@
 import cv2
 import globals
-import numpy as np
 
 def StereoDisparityMap():
 #    def show_xy(event, x, y, flags, userdata):
