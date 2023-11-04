@@ -8,8 +8,8 @@ def StereoDisparityMap():
     def draw_match(event, x, y, flags, userdata):
         if event == cv2.EVENT_LBUTTONDOWN:
             point = int(disparity[y][x])
-            img = cv2.circle(imgR, (x-point, y), 3, (0, 255, 0), 10)
-            cv2.imshow('img', img)
+            cv2.circle(imgR, (x-point, y), 3, (0, 255, 0), 10)
+            cv2.imshow('imgR', imgR)
 
     stereo = cv2.StereoBM.create(numDisparities=256, blockSize=25)
     grayimgL = cv2.cvtColor(globals.images[0], cv2.COLOR_BGR2GRAY)
@@ -21,4 +21,5 @@ def StereoDisparityMap():
 #    disparity = cv2.resize(disparity, (960, 540))
     cv2.imshow('disparity', disparity)
     cv2.imshow('imgL', imgL)
+    cv2.imshow('imgR', imgR)
     cv2.setMouseCallback('imgL', draw_match)
