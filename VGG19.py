@@ -1,8 +1,9 @@
-import cv2
 from torchvision import transforms
 import matplotlib.pyplot as plt
 import globals
-from PIL import Image
+import torchvision
+import  torch
+
 def ShowAugmentedImages():
     trans = transforms.Compose(
         [
@@ -28,3 +29,17 @@ def ShowAugmentedImages():
         plt.imshow(img)
         i += 1
     plt.show()
+
+def ShowModelStructure():
+    1
+    # trans = transforms.Compose(
+    #     [
+    #         transforms.Resize((224, 224)),
+    #         transforms.ToTensor(),
+    #         transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+    #     ]
+    # )
+    # trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
+    # trainloader = torch.utils.data.DataLoader(trainset, batch_size=32, shuffle=True)
+    #
+    # model = torchvision.models.vgg19_bn(num_classes=10)
