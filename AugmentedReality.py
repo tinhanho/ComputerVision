@@ -17,7 +17,6 @@ def ShowWordsOnBoard():
             imagePoints = []
             obj = np.zeros((11 * 8, 3), np.float32)
             obj[:, :2] = np.mgrid[0:11, 0:8].T.reshape(-1, 2)
-            i = 0
             grayimg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             ret, corners = cv2.findChessboardCorners(grayimg, (11, 8), None)
             if ret:
