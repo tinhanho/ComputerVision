@@ -31,7 +31,7 @@ def ShowWordsOnBoard():
                         ch[j][0] -= [3*counter, 0, 0]
                         ch[j][1] += [7, 5, 0]
                         ch[j][1] -= [3*counter, 0, 0]
-                        imgpts, jac = cv2.projectPoints(ch[j], rot[i], trans[i], mat, dis)
+                        imgpts, jac = cv2.projectPoints(ch[j], rot[0], trans[0], mat, dis)
                         imgpts_int = np.int32(imgpts)
                         outimg = cv2.line(outimg, imgpts_int[0][0], imgpts_int[1][0], (0, 0, 255), 5)
                 else:
@@ -40,10 +40,9 @@ def ShowWordsOnBoard():
                         ch[j][0] -= [3*(counter-3), 0, 0]
                         ch[j][1] += [7, 2, 0]
                         ch[j][1] -= [3*(counter-3), 0, 0]
-                        imgpts, jac = cv2.projectPoints(ch[j], rot[i], trans[i], mat, dis)
+                        imgpts, jac = cv2.projectPoints(ch[j], rot[0], trans[0], mat, dis)
                         imgpts_int = np.int32(imgpts)
                         outimg = cv2.line(outimg, imgpts_int[0][0], imgpts_int[1][0], (0, 0, 255), 5)
-                i += 1
             counter += 1
 
         outimg = cv2.resize(outimg, (800, 800))
@@ -65,7 +64,6 @@ def ShowWordsVertically():
             imagePoints = []
             obj = np.zeros((11 * 8, 3), np.float32)
             obj[:, :2] = np.mgrid[0:11, 0:8].T.reshape(-1, 2)
-            i = 0
             grayimg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             ret, corners = cv2.findChessboardCorners(grayimg, (11, 8), None)
             if ret:
@@ -79,7 +77,7 @@ def ShowWordsVertically():
                         ch[j][0] -= [3*counter, 0, 0]
                         ch[j][1] += [7, 5, 0]
                         ch[j][1] -= [3*counter, 0, 0]
-                        imgpts, jac = cv2.projectPoints(ch[j], rot[i], trans[i], mat, dis)
+                        imgpts, jac = cv2.projectPoints(ch[j], rot[0], trans[0], mat, dis)
                         imgpts_int = np.int32(imgpts)
                         outimg = cv2.line(outimg, imgpts_int[0][0], imgpts_int[1][0], (0, 0, 255), 5)
                 else:
@@ -88,10 +86,9 @@ def ShowWordsVertically():
                         ch[j][0] -= [3*(counter-3), 0, 0]
                         ch[j][1] += [7, 2, 0]
                         ch[j][1] -= [3*(counter-3), 0, 0]
-                        imgpts, jac = cv2.projectPoints(ch[j], rot[i], trans[i], mat, dis)
+                        imgpts, jac = cv2.projectPoints(ch[j], rot[0], trans[0], mat, dis)
                         imgpts_int = np.int32(imgpts)
                         outimg = cv2.line(outimg, imgpts_int[0][0], imgpts_int[1][0], (0, 0, 255), 5)
-                i += 1
             counter += 1
 
         outimg = cv2.resize(outimg, (800, 800))

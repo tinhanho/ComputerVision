@@ -6,7 +6,7 @@ from LoadFolder import LoadFolder, LoadImageL, LoadImageR, LoadImage1, LoadImage
 from AugmentedReality import ShowWordsOnBoard, ShowWordsVertically
 from StereoDisparityMap import StereoDisparityMap
 from Keypoints import Keypoints, MatchedKeyPoints
-from VGG19 import ShowAugmentedImages
+from VGG19 import ShowAugmentedImages, ShowModelStructure
 
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
@@ -210,6 +210,7 @@ v_layout.addWidget(pushButton5_2)
 pushButton5_3 = QtWidgets.QPushButton(vbox5)
 pushButton5_3.setObjectName("5.2 Show Model Structure")
 pushButton5_3.setText("5.2 Show Model Structure")
+pushButton5_3.clicked.connect(ShowModelStructure)
 pushButton5_3.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton5_3)
 
