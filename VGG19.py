@@ -48,11 +48,11 @@ def ShowAccAndLoss():
         [
             transforms.Resize((224, 224)),
             transforms.ToTensor(),
-            transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
         ]
     )
     trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=trans)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=32, shuffle=True)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=4, shuffle=True)
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 

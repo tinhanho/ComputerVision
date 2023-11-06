@@ -6,7 +6,7 @@ from LoadFolder import LoadFolder, LoadImageL, LoadImageR, LoadImage1, LoadImage
 from AugmentedReality import ShowWordsOnBoard, ShowWordsVertically
 from StereoDisparityMap import StereoDisparityMap
 from Keypoints import Keypoints, MatchedKeyPoints
-from VGG19 import ShowAugmentedImages, ShowModelStructure
+from VGG19 import ShowAugmentedImages, ShowModelStructure, ShowAccAndLoss
 
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
@@ -217,6 +217,7 @@ v_layout.addWidget(pushButton5_3)
 pushButton5_4 = QtWidgets.QPushButton(vbox5)
 pushButton5_4.setObjectName("5.3 Show Acc and Loss")
 pushButton5_4.setText("5.3 Show Acc and Loss")
+pushButton5_4.clicked.connect(ShowAccAndLoss)
 pushButton5_4.setStyleSheet(style_btn)
 v_layout.addWidget(pushButton5_4)
 
