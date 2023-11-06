@@ -1,3 +1,4 @@
+import torchsummary
 from torchvision import transforms
 import matplotlib.pyplot as plt
 import globals
@@ -5,12 +6,10 @@ import torchvision
 import torch
 import time
 import threading
-
 def training():
     while flag == 0:
         print(tmp)
         time.sleep(5)
-
 def ShowAugmentedImages():
     trans = transforms.Compose(
         [
@@ -38,7 +37,10 @@ def ShowAugmentedImages():
     plt.show()
 
 def ShowModelStructure():
+    model = torchvision.models.vgg19(pretrained=False, num_classes=10)
+    torchsummary.summary(model, (3, 224, 224))
 
+def ShowAccAndLoss():
     model = torchvision.models.vgg19(pretrained=False, num_classes=10)
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
