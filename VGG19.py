@@ -4,12 +4,7 @@ import matplotlib.pyplot as plt
 import globals
 import torchvision
 import torch
-import time
-import threading
-def training():
-    while flag == 0:
-        print(tmp)
-        time.sleep(5)
+
 def ShowAugmentedImages():
     trans = transforms.Compose(
         [
@@ -42,7 +37,7 @@ def ShowModelStructure():
 
 def ShowAccAndLoss():
     model = torchvision.models.vgg19(pretrained=False, num_classes=10)
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
     model = model.to(device)
     trans = transforms.Compose(
         [
@@ -52,19 +47,13 @@ def ShowAccAndLoss():
         ]
     )
     trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=trans)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=4, shuffle=True)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=8, shuffle=True)
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
-    global flag
-    global tmp
-    tmp = 0
-    flag = 0
-    thread = threading.Thread(target=training)
-    thread.start()
     for epoch in range(40):
+        print(epoch)
         model.train()
-        tmp = epoch
         running_loss = 0.0
         for inputs, labels in trainloader:
             inputs, labels = inputs.to(device), labels.to(device)
@@ -77,6 +66,6 @@ def ShowAccAndLoss():
             running_loss += loss.item()
         print(f'Epoch {epoch + 1}, Loss: {running_loss / len(trainloader)}')
     torch.save(model.state_dict(), 'cifar10_vgg19_model.pth')
-
-    flag = 1
     print('Finished Training')
+
+

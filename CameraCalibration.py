@@ -28,7 +28,7 @@ def FindIntrinsic():
             imagePoints.append(corners)
 #            cv2.drawChessboardCorners(img, (11, 8), corners, ret)
             ret, mat, dis, rot, trans = cv2.calibrateCamera(objectPoints, imagePoints, grayimg.shape[::-1], None, None)
-            print("Intrinsic")
+            print("Intrinsic:")
             print(mat, "\n")
 
 def FindExtrinsic():
@@ -47,7 +47,8 @@ def FindExtrinsic():
         ret, mat, dis, rot, trans = cv2.calibrateCamera(objectPoints, imagePoints, grayimg.shape[::-1], None, None)
         R = cv2.Rodrigues(rot[0])
         ext = np.hstack((R[0], trans[0]))
-        print(ext)
+        print("Extrinsic:")
+        print(ext, "\n")
 
 def FindDistortion():
     num = int(globals.getint)
