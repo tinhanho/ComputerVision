@@ -10,3 +10,9 @@ def LoadVideo():
             globals.video.append(frame)
         else:
             break
+
+def LoadImage():
+    file_name, filetype = QFileDialog.getOpenFileName(directory='/Users/hotin/Desktop/Dataset_CvDl_Hw2')
+    img = cv2.imread(file_name)
+    globals.images.append(img)
+    print("Read Success")

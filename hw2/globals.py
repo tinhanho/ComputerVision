@@ -1,3 +1,4 @@
 def initialize():
-    global video
+    global video, images
     video = []
+    images = []

@@ -1,9 +1,11 @@
 from PyQt5 import QtWidgets, QtCore
 import sys
 import globals
-from Load import LoadVideo
+from Load import LoadVideo, LoadImage
 from BackgroundSubtraction import BackgroundSubtraction
 from OpticalFlow import Preprocessing, VideoTracking
+from PCA import DimensionReduction
+
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
     border:1px solid #bdbebd;
@@ -40,7 +42,7 @@ pushButton1_1 = QtWidgets.QPushButton(vbox)
 pushButton1_1.setObjectName("Load Image")
 pushButton1_1.setText("Load Image")
 pushButton1_1.setStyleSheet(style_btn)
-# pushButton1_1.clicked.connect(LoadFolder)
+pushButton1_1.clicked.connect(LoadImage)
 v_layout.addWidget(pushButton1_1)
 
 pushButton1_2 = QtWidgets.QPushButton(vbox)
@@ -80,14 +82,14 @@ pushButton3_1 = QtWidgets.QPushButton(vbox3)
 pushButton3_1.setObjectName("2.1 Preprocessing")
 pushButton3_1.setText("2.1 Preprocessing")
 pushButton3_1.setStyleSheet(style_btn)
-# pushButton2_1.clicked.connect(LoadFolder)
+pushButton3_1.clicked.connect(Preprocessing)
 v_layout.addWidget(pushButton3_1)
 
 pushButton3_2 = QtWidgets.QPushButton(vbox3)
 pushButton3_2.setObjectName("2.2 Video tracking")
 pushButton3_2.setText("2.2 Video tracking")
 pushButton3_2.setStyleSheet(style_btn)
-# pushButton2_1.clicked.connect(LoadFolder)
+pushButton3_2.clicked.connect(VideoTracking)
 v_layout.addWidget(pushButton3_2)
 
 # PCA
@@ -99,12 +101,12 @@ vbox4.setGeometry(240, 420, 180, 100)
 vbox4.setStyleSheet(style_box)
 
 v_layout = QtWidgets.QVBoxLayout(vbox4)
-pushButton2_1 = QtWidgets.QPushButton(vbox4)
-pushButton2_1.setObjectName("3. Dimension Reduction")
-pushButton2_1.setText("3. Dimension Reduction")
-pushButton2_1.setStyleSheet(style_btn)
-# pushButton2_1.clicked.connect(LoadFolder)
-v_layout.addWidget(pushButton2_1)
+pushButton4_1 = QtWidgets.QPushButton(vbox4)
+pushButton4_1.setObjectName("3. Dimension Reduction")
+pushButton4_1.setText("3. Dimension Reduction")
+pushButton4_1.setStyleSheet(style_btn)
+pushButton4_1.clicked.connect(DimensionReduction)
+v_layout.addWidget(pushButton4_1)
 
 # MNIST
 vbox5 = QtWidgets.QWidget(MainWindow)
