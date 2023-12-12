@@ -1,10 +1,12 @@
 from PyQt5 import QtWidgets, QtCore
 import sys
 import globals
-from Load import LoadVideo, LoadImage
+from Load import LoadVideo, LoadImage, LoadImages5
 from BackgroundSubtraction import BackgroundSubtraction
 from OpticalFlow import Preprocessing, VideoTracking
 from PCA import DimensionReduction
+from MNIST import ShowModelStructure
+from ResNet50 import ShowModelStructureRN50, ShowImages
 
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
@@ -113,16 +115,48 @@ vbox5 = QtWidgets.QWidget(MainWindow)
 text = QtWidgets.QLabel(vbox5)
 text.setAlignment(QtCore.Qt.AlignCenter)
 text.setText("MNIST")
-vbox5.setGeometry(440, 20, 360, 200)
+vbox5.setGeometry(440, 20, 180, 200)
 vbox5.setStyleSheet(style_box)
+
+v_layout = QtWidgets.QVBoxLayout(vbox5)
+pushButton5_1 = QtWidgets.QPushButton(vbox5)
+pushButton5_1.setObjectName("1. Show Model Structure")
+pushButton5_1.setText("1. Show Model Structure")
+pushButton5_1.setStyleSheet(style_btn)
+pushButton5_1.clicked.connect(ShowModelStructure)
+v_layout.addWidget(pushButton5_1)
+
 
 #ResNet50
 vbox6 = QtWidgets.QWidget(MainWindow)
 text = QtWidgets.QLabel(vbox6)
 text.setAlignment(QtCore.Qt.AlignCenter)
 text.setText("ResNet50")
-vbox6.setGeometry(440, 240, 360, 200)
+vbox6.setGeometry(440, 240, 180, 200)
 vbox6.setStyleSheet(style_box)
+
+v_layout = QtWidgets.QVBoxLayout(vbox6)
+pushButton6_1 = QtWidgets.QPushButton(vbox6)
+pushButton6_1.setObjectName("Load images")
+pushButton6_1.setText("Load images")
+pushButton6_1.setStyleSheet(style_btn)
+pushButton6_1.clicked.connect(LoadImages5)
+v_layout.addWidget(pushButton6_1)
+
+pushButton6_2 = QtWidgets.QPushButton(vbox6)
+pushButton6_2.setObjectName("5.1 Show Images")
+pushButton6_2.setText("5.1 Show Images")
+pushButton6_2.setStyleSheet(style_btn)
+pushButton6_2.clicked.connect(ShowImages)
+v_layout.addWidget(pushButton6_2)
+
+pushButton6_3 = QtWidgets.QPushButton(vbox6)
+pushButton6_3.setObjectName("5.2 Show Model Structure")
+pushButton6_3.setText("5.2 Show Model Structure")
+pushButton6_3.setStyleSheet(style_btn)
+pushButton6_3.clicked.connect(ShowModelStructureRN50)
+v_layout.addWidget(pushButton6_3)
+
 
 if __name__ == '__main__':
     MainWindow.show()

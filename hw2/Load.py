@@ -16,3 +16,12 @@ def LoadImage():
     img = cv2.imread(file_name)
     globals.images.append(img)
     print("Read Success")
+
+def LoadImages5():
+    file_names, filetype = QFileDialog.getOpenFileNames(directory='/Users/hotin/Desktop/Dataset_CvDl_Hw2')
+    if file_names:
+        for file_name in file_names:
+            img = cv2.imread(file_name)
+            if img is not None:
+                globals.images.append(img)
+    print("LoadFolder success")

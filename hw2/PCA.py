@@ -3,7 +3,7 @@ import globals
 import cv2
 import numpy as np
 from sklearn.decomposition import PCA
-from sklearn.metrics import mean_squared_error
+
 def DimensionReduction():
     img = globals.images[0]
     gryimg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -18,6 +18,7 @@ def DimensionReduction():
         for i in range(w):
             for j in range(h):
                 recon_err += (norgryimg[i][j]-recon_img[i][j])*(norgryimg[i][j]-recon_img[i][j])
+        recon_err = recon_err ** 0.5
         print(n, " error:")
         print(recon_err)
         if recon_err > 3:
