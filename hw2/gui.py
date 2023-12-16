@@ -1,12 +1,18 @@
 from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtGui import QPixmap, QPainter, QPen, QColor, QImage
+from PyQt5.QtCore import Qt, QBuffer, QByteArray, QIODevice
 import sys
 import globals
 from Load import LoadVideo, LoadImage, LoadImages5
 from BackgroundSubtraction import BackgroundSubtraction
 from OpticalFlow import Preprocessing, VideoTracking
 from PCA import DimensionReduction
-from MNIST import ShowModelStructure
+from MNIST import ShowModelStructure, ShowAccuracyAndLoss, Predict
 from ResNet50 import ShowModelStructureRN50, ShowImages
+from io import BytesIO
+import numpy as np
+from PIL import Image
+from torchvision import transforms,datasets
 
 # 設定放置 Layout 的 Widget 樣式
 style_box = '''
@@ -22,8 +28,61 @@ style_btn = '''
         background:#f90;
     }
 '''
-
 globals.initialize()
+global drawing
+global lastPoint
+drawing = False
+lastPoint = None
+def Reset():
+    pixmap = QPixmap(180, 200)
+    pixmap.fill(QColor("black"))
+    label.setPixmap(pixmap)
+
+def qPixmapToImage():
+    pixmap = label.pixmap()
+    byte_array = QByteArray()
+    buffer = QBuffer(byte_array)
+    buffer.open(QIODevice.WriteOnly)
+    pixmap.save(buffer, "PNG")
+    image = Image.open(BytesIO(byte_array))
+    image_np = np.array(image)
+    transform = transforms.Compose([
+        transforms.ToPILImage(),  # Convert NumPy array to PIL image
+        transforms.Resize((32, 32)),
+        transforms.Grayscale(),
+        transforms.ToTensor()
+    ])
+    preprocessed_image = transform(image_np)
+    globals.preimage = preprocessed_image
+
+
+def mousePressEventHandler(event):
+    global drawing
+    global lastPoint
+    if event.button() == Qt.LeftButton:
+        drawing = True
+        lastPoint = event.pos()
+
+def mouseMoveEventHandler(event):
+    global lastPoint
+    if drawing:
+        painter = QPainter(label.pixmap())
+        pen = QPen()
+        pen.setWidth(5)
+        pen.setColor(Qt.white)
+        painter.setPen(pen)
+        painter.drawLine(lastPoint, event.pos())
+        lastPoint = event.pos()
+        label.update()
+def mouseReleaseEventHandler(event):
+    global drawing
+    global lastPoint
+    if event.button() == Qt.LeftButton:
+        drawing = False
+        lastPoint = None
+
+def setdtext():
+    dtext.setText(globals.pdigit)
 
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
@@ -115,7 +174,7 @@ vbox5 = QtWidgets.QWidget(MainWindow)
 text = QtWidgets.QLabel(vbox5)
 text.setAlignment(QtCore.Qt.AlignCenter)
 text.setText("MNIST")
-vbox5.setGeometry(440, 20, 180, 200)
+vbox5.setGeometry(440, 20, 180, 270)
 vbox5.setStyleSheet(style_box)
 
 v_layout = QtWidgets.QVBoxLayout(vbox5)
@@ -126,13 +185,56 @@ pushButton5_1.setStyleSheet(style_btn)
 pushButton5_1.clicked.connect(ShowModelStructure)
 v_layout.addWidget(pushButton5_1)
 
+pushButton5_2 = QtWidgets.QPushButton(vbox5)
+pushButton5_2.setObjectName("2. Show Accuracy and Loss")
+pushButton5_2.setText("2. Show Accuracy and Loss")
+pushButton5_2.setStyleSheet(style_btn)
+pushButton5_2.clicked.connect(ShowAccuracyAndLoss)
+v_layout.addWidget(pushButton5_2)
+
+pushButton5_3 = QtWidgets.QPushButton(vbox5)
+pushButton5_3.setObjectName("3. Predict")
+pushButton5_3.setText("3. Predict")
+pushButton5_3.setStyleSheet(style_btn)
+pushButton5_3.clicked.connect(qPixmapToImage)
+pushButton5_3.clicked.connect(Predict)
+pushButton5_3.clicked.connect(setdtext)
+v_layout.addWidget(pushButton5_3)
+
+pushButton5_4 = QtWidgets.QPushButton(vbox5)
+pushButton5_4.setObjectName("4. Reset")
+pushButton5_4.setText("4. Reset")
+pushButton5_4.setStyleSheet(style_btn)
+pushButton5_4.clicked.connect(Reset)
+v_layout.addWidget(pushButton5_4)
+
+vbox5_3 = QtWidgets.QWidget(MainWindow)
+dtext = QtWidgets.QLabel(vbox5_3)
+dtext.setAlignment(QtCore.Qt.AlignCenter)
+
+vbox5_3.setGeometry(510, 270, 50, 50)
+
+
+vbox5_2 = QtWidgets.QWidget(MainWindow)
+label = QtWidgets.QLabel(vbox5_2)
+vbox5_2.setGeometry(640, 20, 180, 200)
+vbox5_2.setStyleSheet(style_box)
+pixmap = QPixmap(180, 200)
+pixmap.fill(QColor("black"))
+label.setPixmap(pixmap)
+label.mousePressEvent = mousePressEventHandler
+label.mouseMoveEvent = mouseMoveEventHandler
+label.mouseReleaseEvent = mouseReleaseEventHandler
+
+
+
 
 #ResNet50
 vbox6 = QtWidgets.QWidget(MainWindow)
 text = QtWidgets.QLabel(vbox6)
 text.setAlignment(QtCore.Qt.AlignCenter)
 text.setText("ResNet50")
-vbox6.setGeometry(440, 240, 180, 200)
+vbox6.setGeometry(440, 350, 180, 200)
 vbox6.setStyleSheet(style_box)
 
 v_layout = QtWidgets.QVBoxLayout(vbox6)

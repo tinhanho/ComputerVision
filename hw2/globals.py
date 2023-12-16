@@ -1,4 +1,5 @@
 def initialize():
-    global video, images
+    global video, images, preimage, pdigit
+    pdigit = ''
     video = []
     images = []
